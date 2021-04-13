@@ -1,15 +1,23 @@
 package com.server.FitnessClubSpring.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity //указывает, что данный бин (класс) является сущностью.
 @EnableAutoConfiguration //позволяет делать автоматическое создание таблицы
 @Table(name = "areas") //указывает на имя таблицы, которая будет отображаться в этой сущности.
-public class Areas {
+public class Areas implements Serializable {
     @Id
     //id колонки (первичный ключ - значение которое будет использоваться для обеспечения уникальности данных в текущей таблице)
     @Column(name = "id") //указывает на имя колонки, которая отображается в свойство сущности.
@@ -19,8 +27,9 @@ public class Areas {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @OneToOne(mappedBy = "area")
-    private Activities activities;
+    
+    @OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
+    private List<Activities> activities = new ArrayList<>();
 
     public Areas(String name) {
         this.name = name;
@@ -44,6 +53,7 @@ public class Areas {
     public void setName(String name) {
         this.name = name;
     }
+
 
     @Override
     public boolean equals(Object o) {

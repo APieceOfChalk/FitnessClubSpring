@@ -16,11 +16,11 @@ public class Subscriptions {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //указывает, что данное свойство будет создаваться согласно указанной стратегии.
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name="client_id", nullable=false)
     private Clients client;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "activity_id", referencedColumnName = "id", nullable = false)
     private Activities activity;
 
@@ -29,16 +29,13 @@ public class Subscriptions {
     
     @Column(name = "price", nullable = false)
     private Long price;
-    
-    @Column(name = "payment_status", nullable = false)
-    private Boolean paymentStatus;
 
-    public Subscriptions(Clients client, Activities activity, String date, Long price, Boolean paymentStatus) {
+
+    public Subscriptions(Clients client, Activities activity, String date, Long price) {
         this.client = client;
         this.activity = activity;
         this.date = date;
         this.price = price;
-        this.paymentStatus = paymentStatus;
     }
     
     Subscriptions() {}
@@ -83,13 +80,6 @@ public class Subscriptions {
         this.price = price;
     }
 
-    public Boolean getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(Boolean paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -102,18 +92,17 @@ public class Subscriptions {
         return Objects.equals(this.id, subscriptions.id) && Objects.equals(this.client, subscriptions.client)
                 && Objects.equals(this.activity, subscriptions.activity)
                 && Objects.equals(this.date, subscriptions.date)
-                && Objects.equals(this.price, subscriptions.price)
-                && Objects.equals(this.paymentStatus, subscriptions.paymentStatus);
+                && Objects.equals(this.price, subscriptions.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.client, this.activity, this.date, this.price, this.paymentStatus);
+        return Objects.hash(this.id, this.client, this.activity, this.date, this.price);
     }
 
     @Override
     public String toString() {
         return "Employee{" + "id=" + this.id + ", client='" + this.client + '\'' + ", activity='" + this.activity + '\'' +
-                ", date='" + this.date + ", price='" + this.paymentStatus + ", price='" + this.paymentStatus + '}';
+                ", date='" + this.date + ", price='" + '}';
     }
 }

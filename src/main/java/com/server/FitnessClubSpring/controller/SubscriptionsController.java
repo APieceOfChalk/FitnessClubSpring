@@ -42,7 +42,6 @@ public class SubscriptionsController {
                     subscription.setActivity(newSubscription.getActivity());
                     subscription.setDate(newSubscription.getDate());
                     subscription.setPrice(newSubscription.getPrice());
-                    subscription.setPaymentStatus(newSubscription.getPaymentStatus());
                     return subscriptionsRepository.save(subscription);
                 })
                 .orElseGet(() -> {

@@ -3,12 +3,15 @@ package com.server.FitnessClubSpring.entity;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @EnableAutoConfiguration
 @Table(name = "activities")
-public class Activities {
+public class Activities implements Serializable {
 
     @Id
     //id колонки (первичный ключ - значение которое будет использоваться для обеспечения уникальности данных в текущей таблице)
@@ -19,22 +22,21 @@ public class Activities {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "trainer_id", referencedColumnName = "id", nullable = false)
     private Trainers trainer;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "area_id", referencedColumnName = "id", nullable = false)
     private Areas area;
 
-    @OneToOne(mappedBy = "activity")
-    private Subscriptions subscriptions;
+    @OneToMany(mappedBy = "activity", fetch = FetchType.LAZY)
+    private List<Subscriptions> subscriptions = new ArrayList<>();
 
-    public Activities(String name, Trainers trainer, Areas area, Subscriptions subscriptions) {
+    public Activities(String name, Trainers trainer, Areas area) {
         this.name = name;
         this.trainer = trainer;
         this.area = area;
-        this.subscriptions = subscriptions;
     }
 
     Activities() {}

@@ -1,9 +1,16 @@
 package com.server.FitnessClubSpring.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity //указывает, что данный бин (класс) является сущностью.
@@ -28,8 +35,8 @@ public class Trainers {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @OneToOne(mappedBy = "trainer")
-    private Activities activities;
+    @OneToMany(mappedBy = "trainer", fetch = FetchType.LAZY)
+    private List<Activities> activities = new ArrayList<>();
 
     Trainers(String name, String passport, String phone, String address) {
         this.name = name;
@@ -80,6 +87,7 @@ public class Trainers {
     public void setAddress(String address) {
         this.address = address;
     }
+
 
     @Override
     public boolean equals(Object o) {

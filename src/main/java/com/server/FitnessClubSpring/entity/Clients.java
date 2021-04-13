@@ -3,6 +3,8 @@ package com.server.FitnessClubSpring.entity;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -27,7 +29,7 @@ public class Clients {
     private String phone;
 
     @OneToMany(mappedBy="client")
-    private Set<Subscriptions> subscriptions;
+    private List<Subscriptions> subscriptions = new ArrayList<>();
 
 
     Clients(String name, String passport, String phone, String address) {

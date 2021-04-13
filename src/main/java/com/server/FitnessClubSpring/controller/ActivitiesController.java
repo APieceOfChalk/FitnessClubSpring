@@ -2,18 +2,27 @@ package com.server.FitnessClubSpring.controller;
 
 import com.server.FitnessClubSpring.controller.errors.ActivitiesNotFoundException;
 import com.server.FitnessClubSpring.entity.Activities;
+import com.server.FitnessClubSpring.entity.Trainers;
 import com.server.FitnessClubSpring.repository.ActivitiesRepository;
+import com.server.FitnessClubSpring.repository.TrainersRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ActivitiesController {
     
     private final ActivitiesRepository activitiesRepository;
-    
-    public ActivitiesController(ActivitiesRepository activitiesRepository) {
+    private final TrainersRepository trainersRepository;
+
+
+
+    public ActivitiesController(ActivitiesRepository activitiesRepository, TrainersRepository trainersRepository) {
         this.activitiesRepository = activitiesRepository;
+        this.trainersRepository = trainersRepository;
     }
 
     @GetMapping("/activities")
@@ -22,8 +31,9 @@ public class ActivitiesController {
     }
 
     @PostMapping("/activities")
-    Activities newActivity(@RequestBody Activities newActivity) {
-        return activitiesRepository.save(newActivity);
+    public ResponseEntity<?> newActivity(@RequestBody Activities newActivity) {
+        activitiesRepository.save(newActivity);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/activities/{id}")
