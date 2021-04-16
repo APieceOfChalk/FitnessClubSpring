@@ -1,5 +1,7 @@
 package com.server.FitnessClubSpring.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.*;
@@ -27,10 +29,11 @@ public class Activities implements Serializable {
     private Trainers trainer;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "area_id", referencedColumnName = "id", nullable = false)
     private Areas area;
 
-    @OneToMany(mappedBy = "activity", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "activity", fetch = FetchType.LAZY, cascade = CascadeType.MERGE, orphanRemoval = true)
     private List<Subscriptions> subscriptions = new ArrayList<>();
 
     public Activities(String name, Trainers trainer, Areas area) {

@@ -1,9 +1,6 @@
 package com.server.FitnessClubSpring.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.*;
@@ -11,7 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 
 @Entity //указывает, что данный бин (класс) является сущностью.
@@ -28,7 +24,7 @@ public class Areas implements Serializable {
     private String name;
 
     
-    @OneToMany(mappedBy = "area", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "area", fetch = FetchType.LAZY, cascade = CascadeType.MERGE, orphanRemoval = true)
     private List<Activities> activities = new ArrayList<>();
 
     public Areas(String name) {
