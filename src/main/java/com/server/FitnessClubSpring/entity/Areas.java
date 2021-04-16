@@ -28,7 +28,7 @@ public class Areas implements Serializable {
     private String name;
 
     
-    @OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "area", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private List<Activities> activities = new ArrayList<>();
 
     public Areas(String name) {
