@@ -28,10 +28,10 @@ public class Subscriptions {
     private String date;
     
     @Column(name = "price", nullable = false)
-    private Long price;
+    private String price;
 
 
-    public Subscriptions(Clients client, Activities activity, String date, Long price) {
+    public Subscriptions(Clients client, Activities activity, String date, String price) {
         this.client = client;
         this.activity = activity;
         this.date = date;
@@ -72,11 +72,11 @@ public class Subscriptions {
         this.date = date;
     }
 
-    public Long getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
