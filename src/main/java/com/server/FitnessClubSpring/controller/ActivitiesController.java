@@ -2,8 +2,10 @@ package com.server.FitnessClubSpring.controller;
 
 import com.server.FitnessClubSpring.controller.errors.ActivitiesNotFoundException;
 import com.server.FitnessClubSpring.entity.Activities;
+import com.server.FitnessClubSpring.entity.Areas;
 import com.server.FitnessClubSpring.entity.Trainers;
 import com.server.FitnessClubSpring.repository.ActivitiesRepository;
+import com.server.FitnessClubSpring.repository.AreasRepository;
 import com.server.FitnessClubSpring.repository.TrainersRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +19,15 @@ public class ActivitiesController {
     
     private final ActivitiesRepository activitiesRepository;
     private final TrainersRepository trainersRepository;
+    private final AreasRepository areasRepository;
 
 
 
-    public ActivitiesController(ActivitiesRepository activitiesRepository, TrainersRepository trainersRepository) {
+    public ActivitiesController(ActivitiesRepository activitiesRepository, TrainersRepository trainersRepository,
+                                AreasRepository areasRepository) {
         this.activitiesRepository = activitiesRepository;
         this.trainersRepository = trainersRepository;
+        this.areasRepository = areasRepository;
     }
 
     @GetMapping("/activities")
@@ -46,11 +51,14 @@ public class ActivitiesController {
     @PutMapping("/activities/{id}")
     Activities replaceClient(@RequestBody Activities newActivity, @PathVariable Long id) {
 
+        Optional<Trainers> trainer = trainersRepository.findById(newActivity.getTrainer().getId());
+        Optional<Areas> area = areasRepository.findById(newActivity.getArea().getId());
+
         return activitiesRepository.findById(id)
                 .map(activity -> {
                     activity.setName(newActivity.getName());
-                    activity.setTrainer(newActivity.getTrainer());
-                    activity.setArea(newActivity.getArea());
+                    activity.setTrainer(trainer.get());
+                    activity.setArea(area.get());
                     return activitiesRepository.save(activity);
                 })
                 .orElseGet(() -> {
