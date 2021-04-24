@@ -3,6 +3,9 @@ package com.server.FitnessClubSpring;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Запуск сервера.
+ */
 @SpringBootApplication
 public class FitnessClubSpringApplication {
 

@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Класс контроллера для занятий, где задаются HTTP запросы.
+ */
 @RestController
 public class ActivitiesController {
     
@@ -21,8 +24,12 @@ public class ActivitiesController {
     private final TrainersRepository trainersRepository;
     private final AreasRepository areasRepository;
 
-
-
+    /**
+     * Конструктор - создание нового объекта с определенными значениями
+     * @param activitiesRepository - репозиторий занятий
+     * @param trainersRepository - репозиорий тренеров
+     * @param areasRepository - репозиторий залов
+     */
     public ActivitiesController(ActivitiesRepository activitiesRepository, TrainersRepository trainersRepository,
                                 AreasRepository areasRepository) {
         this.activitiesRepository = activitiesRepository;
@@ -30,17 +37,31 @@ public class ActivitiesController {
         this.areasRepository = areasRepository;
     }
 
+    /**
+     * GET запрос
+     * @return все занятия
+     */
     @GetMapping("/activities")
     List<Activities> all() {
         return activitiesRepository.findAll();
     }
 
+    /**
+     * POST запрос
+     * @param newActivity - новое занятие
+     * @return HTTP статус "CREATED"
+     */
     @PostMapping("/activities")
     public ResponseEntity<?> newActivity(@RequestBody Activities newActivity) {
         activitiesRepository.save(newActivity);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    /**
+     * GET запрос определенного занятия
+     * @param id - id занятия
+     * @return занятие по id
+     */
     @GetMapping("/activities/{id}")
     Activities one(@PathVariable Long id) {
 
@@ -48,6 +69,12 @@ public class ActivitiesController {
                 .orElseThrow(() -> new ActivitiesNotFoundException(id));
     }
 
+    /**
+     * PUT запрос на изменение занятия
+     * @param newActivity - новое занятие
+     * @param id - id занятия
+     * @return измененное занятие
+     */
     @PutMapping("/activities/{id}")
     Activities replaceClient(@RequestBody Activities newActivity, @PathVariable Long id) {
 
@@ -67,6 +94,10 @@ public class ActivitiesController {
                 });
     }
 
+    /**
+     * DELETE запрос
+     * @param id - id занятия
+     */
     @DeleteMapping("/activities/{id}")
     void deleteClient(@PathVariable Long id) {
         activitiesRepository.deleteById(id);
