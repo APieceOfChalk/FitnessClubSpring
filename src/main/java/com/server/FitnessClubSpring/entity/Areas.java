@@ -49,7 +49,7 @@ public class Areas implements Serializable {
     /**
      * Конструктор - создание нового объекта
      */
-    Areas() {}
+    public Areas() {}
 
 
     /**

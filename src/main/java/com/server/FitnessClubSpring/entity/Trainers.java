@@ -61,7 +61,7 @@ public class Trainers {
      * @param phone - телефон
      * @param address - адрес
      */
-    Trainers(String name, String passport, String phone, String address) {
+    public Trainers(String name, String passport, String phone, String address) {
         this.name = name;
         this.passport = passport;
         this.phone = phone;

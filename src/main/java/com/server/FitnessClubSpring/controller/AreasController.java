@@ -38,7 +38,7 @@ public class AreasController {
      * @return новый зал
      */
     @PostMapping("/areas")
-    Areas newClient(@RequestBody Areas newArea) {
+    Areas newArea(@RequestBody Areas newArea) {
         return areasRepository.save(newArea);
     }
 

@@ -53,7 +53,7 @@ public class Clients {
      * @param passport - паспорт
      * @param phone - телефон
      */
-    Clients(String name, String passport, String phone) {
+    public Clients(String name, String passport, String phone) {
         this.name = name;
         this.passport = passport;
         this.phone = phone;
